@@ -1,0 +1,8 @@
+.card_styles {
+  cursor: pointer;
+}
+.card_styles:hover {
+}
+.img_heigt {
+  height: 200px;
+}
