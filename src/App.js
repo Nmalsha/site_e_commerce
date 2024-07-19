@@ -9,6 +9,9 @@ import ClientSpace from "./component/user/ClientSpace/ClientSpace.js";
 import AdminSpace from "./component/admin/AdminSpace/AdminSpace.js";
 import { UserProvider } from "./component/userContext/UserContext.js";
 import ProductDetail from "./component/productDetails/ProductDetails.js";
+import Profile from "./component/user/Profile/Profile.js";
+import ProtectedRoute from "./protectedRouts/ProtectedRoutes.js";
+import Commands from "./component/user/Commands/Commands.js";
 
 function App() {
   return (
@@ -19,8 +22,32 @@ function App() {
             <Route path="/" element={<Home />}></Route>
             <Route path="/products" element={<Product />}></Route>
             <Route path="/contact" element={<Contact />} />
+
+            <Route
+              path="/commandes"
+              element={
+                <ProtectedRoute>
+                  <Commands />{" "}
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <Profile />
+                </ProtectedRoute>
+              }
+            />
             <Route path="*" element={<ClientSpace />} />
-            <Route path="/admin/*" element={<AdminSpace />} />
+            <Route
+              path="/admin/*"
+              element={
+                <ProtectedRoute roles={["ADMIN"]}>
+                  <AdminSpace />
+                </ProtectedRoute>
+              }
+            />
             <Route path="/products/:productId" element={<ProductDetail />} />
           </Routes>
         </Layout>

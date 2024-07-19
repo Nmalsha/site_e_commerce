@@ -5,15 +5,15 @@ import { useNavigate } from "react-router-dom";
 import "./Header.css";
 
 const Header = () => {
-  const { user } = useContext(UserContext);
-  const [isNotAdmin, setIsNotAdmin] = useState("");
+  const { user, setUser } = useContext(UserContext);
+  const [isUser, setIsUser] = useState("");
   const [isAdmin, setIsAdmin] = useState("");
 
   useEffect(() => {
     if (user && user.role === "ADMIN") {
       setIsAdmin(true);
     } else {
-      setIsAdmin(false);
+      setIsUser(true);
     }
   }, [user]);
 
@@ -21,6 +21,7 @@ const Header = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("userData");
+    setUser(null);
     alert("Do you want to logout");
     navigate("/");
   };
@@ -72,15 +73,17 @@ const Header = () => {
                   Contact
                 </Link>
               </li>
+
               <li className="nav-item">
                 <Link
                   className="nav-link"
-                  to="/client-space/register"
+                  to="/client-space/login"
                   style={{ color: "white", fontSize: "25px" }}
                 >
                   Espace Client
                 </Link>
               </li>
+
               {isAdmin && (
                 <li className="nav-item">
                   <Link
@@ -92,28 +95,13 @@ const Header = () => {
                   </Link>
                 </li>
               )}
-
-              {/* <li className="nav-item">
-                  <Link
-                    className="nav-link"
-                    to="/register/"
-                    style={{ color: "white" }}
-                  >
-                    Register
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link
-                    className="nav-link"
-                    to="/login/"
-                    style={{ color: "white" }}
-                  >
-                    Login
-                  </Link>
-                </li> */}
             </ul>
             {user && (
-              <div>
+              <div
+                style={{
+                  display: "flex",
+                }}
+              >
                 <span
                   style={{
                     color: "#460c91",
@@ -124,9 +112,32 @@ const Header = () => {
                   {" "}
                   Hello {user.prenom}
                 </span>
+                {user.role !== "ADMIN" && (
+                  <Link
+                    style={{
+                      color: "#white",
+                      fontSize: "25px",
+                      marginLeft: "25px",
+                    }}
+                    to="/profile"
+                  >
+                    {" "}
+                    My Profile
+                  </Link>
+                )}
+                {user && user.role !== "ADMIN" && (
+                  <Link
+                    className="nav-link"
+                    to="/commandes"
+                    style={{ color: "#460c91", fontSize: "25px" }}
+                  >
+                    Commandes
+                  </Link>
+                )}
+
                 <span
                   style={{
-                    color: "#460c91",
+                    color: "#white",
                     fontSize: "25px",
                     marginLeft: "25px",
                   }}

@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { UserContext } from "../../userContext/UserContext";
 import "./LoginForm.css";
 
 const LoginForm = () => {
@@ -9,6 +10,7 @@ const LoginForm = () => {
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
 
+  const { setUser } = useContext(UserContext);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -25,7 +27,7 @@ const LoginForm = () => {
       const userData = response.data;
       setSuccessMessage("User logged successfully!");
       localStorage.setItem("userData", JSON.stringify(userData));
-
+      setUser(userData);
       if (userData.role === "ADMIN") {
         navigate("/admin/products");
       } else {

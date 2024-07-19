@@ -1,11 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { Card, Button } from "react-bootstrap";
+import { Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "../userContext/UserContext";
 
 const ProductDetails = () => {
   const { productId } = useParams();
   const [product, setProduct] = useState(null);
+
+  const navigate = useNavigate();
+
+  const goBack = () => {
+    navigate(-1);
+  };
 
   useEffect(() => {
     fetchProduct();
@@ -17,9 +25,29 @@ const ProductDetails = () => {
         `https://api-dev.akov-developpement.fr/api/produit/${productId}`
       );
       setProduct(response.data);
-      console.log(response.data);
     } catch (error) {
       console.error("Error fetching product:", error);
+    }
+  };
+
+  const { user } = useContext(UserContext);
+
+  const handleBuyNow = async () => {
+    try {
+      const response = await axios.post(
+        "https://api-dev.akov-developpement.fr/api/commande/save",
+        {
+          idUser: user.id,
+          idProduit: product.id,
+          qte: 1,
+        }
+      );
+      console.log(response.data);
+      alert("Order placed successfully!");
+      navigate("/commandes");
+    } catch (error) {
+      console.error("Error placing order:", error);
+      alert("Error placing order. Please try again.");
     }
   };
 
@@ -29,6 +57,9 @@ const ProductDetails = () => {
 
   return (
     <div className="container mt-5">
+      <button onClick={goBack} className="go-back-button">
+        &lt;
+      </button>
       <h2>Product Details</h2>
       <div className="product-details">
         <img
@@ -46,7 +77,9 @@ const ProductDetails = () => {
           <p>
             <strong>Taille: </strong> {product.tail}
           </p>
-          <Button variant="primary">Buy Now</Button>
+          <Button variant="primary" onClick={handleBuyNow}>
+            Buy Now
+          </Button>
         </div>
       </div>
     </div>

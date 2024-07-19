@@ -1,0 +1,8 @@
+.home-container {
+  margin: auto;
+  padding: 20px;
+}
+
+.carousel img {
+  object-fit: cover;
+}

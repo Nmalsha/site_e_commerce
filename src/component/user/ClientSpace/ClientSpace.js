@@ -11,15 +11,15 @@ const ClientSpace = () => {
       <Row>
         <Col className=" sidebar custom-sidebar">
           <Nav className="flex-column">
+            <Nav.Link as={Link} to="/client-space/login" className="font_style">
+              Identification
+            </Nav.Link>
             <Nav.Link
               as={Link}
               to="/client-space/register"
               className="font_style"
             >
               Créer un compte
-            </Nav.Link>
-            <Nav.Link as={Link} to="/client-space/login" className="font_style">
-              Identification
             </Nav.Link>
           </Nav>
         </Col>

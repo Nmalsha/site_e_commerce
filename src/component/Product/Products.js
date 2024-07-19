@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Card, Button, Row, Col, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import defaultImage from "../../images/avatar.jpg";
+import defaultImage from "../../avatar.jpg";
 import "./Products.css";
 
 const Products = () => {
@@ -11,13 +11,13 @@ const Products = () => {
   const [sortOrder, setSortOrder] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
 
-  const handleSortChange = (e) => {
-    setSortOrder(e.target.value);
-  };
-
   useEffect(() => {
     setProducts(listProducts);
   }, [listProducts]);
+
+  const handleSortChange = (e) => {
+    setSortOrder(e.target.value);
+  };
 
   const sortedProducts = [...products].sort((a, b) => {
     if (sortOrder === "asc") {
@@ -75,13 +75,7 @@ const Products = () => {
       }}
     >
       <h2>Our List of products</h2>
-      <Form.Control
-        type="text"
-        placeholder="Search by name, description, price, or size"
-        value={searchTerm}
-        onChange={handleSearchChange}
-        className="mb-3"
-      />
+
       <Form.Control
         as="select"
         onChange={handleSortChange}
